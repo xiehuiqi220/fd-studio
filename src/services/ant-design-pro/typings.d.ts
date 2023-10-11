@@ -84,7 +84,22 @@ declare namespace API {
     success?: boolean;
   };
 
+  type ProjectList = {
+    data?: ProjectItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  }
+
   type NoticeIconItemType = 'notification' | 'message' | 'event';
+
+  type ProjectItem = {
+    id?: string;
+    title?: string;
+    status?: string;
+    description?: string;
+    type?: number;
+  };
 
   type NoticeIconItem = {
     id?: string;

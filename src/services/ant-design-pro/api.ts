@@ -32,6 +32,14 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
+/** 此处后端没有提供注释 GET /api/getAllProjects */
+export async function getAllProjects(options?: { [key: string]: any }) {
+  return request<API.ProjectList>('/api/getAllProjects', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/api/notices', {
