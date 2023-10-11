@@ -2,6 +2,9 @@ import { useModel } from '@umijs/max';
 import { Card, List, theme } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { getAllProjects,removeRule } from '@/services/ant-design-pro/api';
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+
+const { Meta } = Card;
 
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
@@ -11,76 +14,25 @@ import { getAllProjects,removeRule } from '@/services/ant-design-pro/api';
 const InfoCard: React.FC<{
   title: string | undefined;
   index: number;
+  logo: string;
   desc: string | undefined;
-}> = ({ title, index, desc }) => {
+}> = ({ title, index, desc,logo }) => {
   const { useToken } = theme;
   const { token } = useToken();
 
   return (
-    <div
-      style={{
-        backgroundColor: token.colorBgContainer,
-        boxShadow: token.boxShadow,
-        borderRadius: '8px',
-        fontSize: '14px',
-        color: token.colorTextSecondary,
-        lineHeight: '22px',
-        padding: '16px 19px',
-        minWidth: '360px',
-        height:'240px',
-        overflow: 'hidden',
-        flex: 1,
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          gap: '4px',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            width: 48,
-            height: 48,
-            lineHeight: '22px',
-            backgroundSize: '100%',
-            backgroundRepeat: 'no-repeat',
-            textAlign: 'center',
-            padding: '8px 16px 16px 12px',
-            color: '#FFF',
-            fontWeight: 'bold',
-            backgroundImage:
-              "url('https://gw.alipayobjects.com/zos/bmw-prod/daaf8d50-8e6d-4251-905d-676a24ddfa12.svg')",
-          }}
-        >
-          {index}
-        </div>
-        <div
-          style={{
-            fontSize: '16px',
-            color: token.colorText,
-            paddingBottom: 8,
-          }}
-        >
-          {title}
-        </div>
-      </div>
-      <div
-        style={{
-          fontSize: '14px',
-          color: token.colorTextSecondary,
-          textAlign: 'justify',
-          lineHeight: '22px',
-          marginBottom: 8,
-        }}
-      >
-        {desc}
-      </div>
-      <a href={"#1"} target="_blank" rel="noreferrer">
-        了解更多 {'>'}
-      </a>
-    </div>
+    <Card
+    hoverable
+    style={{ width: 323 }}
+    cover={<img alt="example" src={logo} />}
+    actions={[
+      <SettingOutlined key="setting" />,
+      <EditOutlined key="edit" />,
+      <EllipsisOutlined key="ellipsis" />,
+    ]}
+  >
+    <Meta title="Europe Street beat" description="www.instagram.com" />
+  </Card>
   );
 };
 
@@ -104,7 +56,7 @@ const CardList: React.FC = () => {
       {projectList?.map((item:API.ProjectItem) => {
         return <InfoCard
           index={1}
-          href="https://umijs.org/docs/introduce/introduce"
+          logo={item.logo}
           title={item.title}
           desc={item.description}
         />

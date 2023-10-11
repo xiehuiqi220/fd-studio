@@ -5,8 +5,9 @@ const getAllProjects = (req: Request, res: Response) => {
   res.json(Mock.mock({
     success: true,
     'data|1-10': [{
-        'id': '@color',
-        'title': '@csentence(1,20)',
+        'id': '@guid',
+        'title': '@title(1,10)',
+        'logo': '@image(100x100)',
         'description': '@csentence(0,1000)'
     }]
 }));

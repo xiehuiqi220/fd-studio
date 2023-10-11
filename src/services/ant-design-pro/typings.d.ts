@@ -96,6 +96,7 @@ declare namespace API {
   type ProjectItem = {
     id?: string;
     title?: string;
+    logo?: logo;
     status?: string;
     description?: string;
     type?: number;
