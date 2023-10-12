@@ -32,11 +32,27 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
-/** 此处后端没有提供注释 GET /api/getAllProjects */
+/** 获取所有项目信息 GET /api/getAllProjects */
 export async function getAllProjects(options?: { [key: string]: any }) {
   return request<API.ProjectList>('/api/getAllProjects', {
     method: 'GET',
     ...(options || {}),
+  });
+}
+
+/** 根据id获取项目信息 GET /api/getAllProjects */
+export async function getProjectById(pid: string | undefined) {
+  return request<{ success: boolean, data: API.ProjectItem }>('/api/getProjectById', {
+    method: 'GET',
+    params: { pid },
+  });
+}
+
+/** 更新项目信息 GET /api/getAllProjects */
+export async function updateProject(projectData:API.ProjectItem) {
+  return request<{ success: boolean, data: string }>('/api/updateProject', {
+    method: 'GET',
+    params: { projectData },
   });
 }
 

@@ -6,6 +6,7 @@ import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
+import DATA_DICTS from '../config/constants';
 import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import React from 'react';
@@ -19,6 +20,7 @@ const loginPath = '/user/login';
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
+  dataDict:any;
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
@@ -40,11 +42,13 @@ export async function getInitialState(): Promise<{
     return {
       fetchUserInfo,
       currentUser,
+      dataDict:DATA_DICTS,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
   return {
     fetchUserInfo,
+    dataDict:DATA_DICTS,
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }

@@ -42,7 +42,15 @@ export default [
         path: '/admin/sub-page',
         name: 'sub-page',
         component: './Admin',
-      },
+      },{
+        path: '/admin/project/edit/:id',
+        name: 'project.create',
+        component: './Project/Create',
+      },{
+        path: '/admin/project/create',
+        name: 'project.create',
+        component: './Project/Create',
+      }
     ],
   },
   {
