@@ -44,12 +44,20 @@ export default [
         component: './Admin',
       },{
         path: '/admin/project/edit/:id',
-        name: 'project.create',
+        name: 'project.edit',
         component: './Project/Create',
+      },{
+        path: '/admin/project/list',
+        name: 'project.list',
+        component: './Project/List',
       },{
         path: '/admin/project/create',
         name: 'project.create',
         component: './Project/Create',
+      },{
+        path: '/admin/storyboard/edit/:id',
+        name: 'storyboard.edit',
+        component: './Storyboard/Edit',
       }
     ],
   },

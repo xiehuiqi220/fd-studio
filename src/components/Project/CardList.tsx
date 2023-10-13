@@ -51,7 +51,13 @@ const CardList: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 16,
+            }}
+          >
       <Card
         hoverable
         style={{ width: 323 }}
@@ -77,7 +83,7 @@ const CardList: React.FC = () => {
           desc={item.description}
         />
       })}
-    </>
+    </div>
   );
 };
 
