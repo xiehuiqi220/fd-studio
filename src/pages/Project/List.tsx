@@ -1,9 +1,9 @@
 import { useModel } from '@umijs/max';
 import { useParams } from 'umi';
 import { Button, Result, message } from 'antd';
-import React, { useRef,useState,useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import type { ProFormInstance } from '@ant-design/pro-components';
-import { getProjectById,updateProject } from '@/services/ant-design-pro/api';
+import { getProjectById, updateProject } from '@/services/ant-design-pro/api';
 import CardList from '../../components/Project/CardList'
 
 import {

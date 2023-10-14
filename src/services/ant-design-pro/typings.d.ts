@@ -93,6 +93,30 @@ declare namespace API {
 
   type NoticeIconItemType = 'notification' | 'message' | 'event';
 
+  type ShotType = {
+    id: string;
+    sortNum?: number;
+    shotNum?: number;
+    picture?: string;
+    scenery?: number;
+    duration?: number;
+    angle?: string;
+    lens?: number;
+    move?: string;
+    voice?: string;
+    sbId: string; //分镜基本信息id，分镜下面有镜头，1:n
+    content?: string;
+    last_modified_at?: number;
+    created_at?: number;
+  };
+
+  type Storyboard = {
+    id: string;
+    projectId: string;
+    title: string;
+    fps: number;
+  };
+
   type ProjectItem = {
     id?: string;
     title?: string;
