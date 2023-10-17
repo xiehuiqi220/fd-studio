@@ -58,6 +58,14 @@ export default [
         path: '/admin/storyboard/edit/:id',
         name: 'storyboard.edit',
         component: './Storyboard/Edit',
+      },{
+        path: '/admin/location/manager',
+        name: 'location.manage',
+        component: './Location/LocList',
+      },{
+        path: '/admin/role/manager',
+        name: 'role.manage',
+        component: './Location/LocList',
       }
     ],
   },

@@ -126,6 +126,23 @@ declare namespace API {
     type?: number;
   };
 
+  type ConceptPicture = {
+    id?: string;
+    title?: string;
+    url?: string;
+    description?: string;
+  };
+
+  type Location = {
+    id?: string;
+    title?: string;
+    logo?: logo;
+    realAddress?: string;
+    pictureList?: ConceptPicture[];
+    description?: string;
+    type?: number;
+  };
+
   type NoticeIconItem = {
     id?: string;
     extra?: string;
