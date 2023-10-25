@@ -1,10 +1,18 @@
 import { useModel } from '@umijs/max';
 import { useParams } from 'umi';
-import { Button,Card, Result, message } from 'antd';
+import { Button,Card,Form, Result, message } from 'antd';
 import React, { useRef, useState, useEffect } from 'react';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { getAllLocations } from '@/services/ant-design-pro/concept';
 import { EditOutlined, PlusOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  DrawerForm,
+  ProForm,
+  ProFormDateRangePicker,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-components';
+import Editor from '../../components/Setting/Editor';
 
 const { Meta } = Card;
 
@@ -29,7 +37,7 @@ const InfoCard: React.FC<{
         <EllipsisOutlined key="ellipsis" />,
       ]}
     >
-      <Meta title="Europe Street beat" description="www.instagram.com" />
+      <Meta title={title} description={desc} />
     </Card>
   );
 };
@@ -60,18 +68,16 @@ const CardList: React.FC = () => {
         hoverable
         style={{ width: 323 }}
       >
-        <a href='./admin/project/create' style={{
-          display: "block",
-          width: "100%",
-          height: "100%"
-        }}><div style={{
+       <Editor title='编辑地点'>
+       <div style={{
           display: "flex",
           height:"400px",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center"
         }}><h1><PlusOutlined /></h1>
-            <h1>Create Project</h1></div></a>
+            <h1>Create Project</h1></div>
+       </Editor>
       </Card>
       {locationList?.map((item: API.ProjectItem,i) => {
         return <InfoCard
@@ -90,6 +96,7 @@ import {
   PageContainer
 } from '@ant-design/pro-components';
 import { waitTime } from '@/Utils/time';
+import { Descriptions } from 'antd/lib';
 
 const LocList: React.FC = (props) => {
   useEffect(() => {

@@ -13,6 +13,13 @@ const getLocations = (req: Request, res: Response) => {
   }));
 };
 
+const saveLocation = (req: Request, res: Response) => {
+  res.json(Mock.mock({
+    success: true,
+    'data': '@guid'
+  }));
+};
+
 const getLocationById = (req: Request, res: Response) => {
   res.json(Mock.mock({
     success: true,
@@ -27,5 +34,6 @@ const getLocationById = (req: Request, res: Response) => {
 
 export default {
   'GET /api/getLocations': getLocations,
-  'GET /api/getLocationById': getLocationById
+  'GET /api/getLocationById': getLocationById,
+  'GET /api/saveLocation': saveLocation
 };

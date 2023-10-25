@@ -136,6 +136,7 @@ declare namespace API {
   type Location = {
     id?: string;
     title?: string;
+    snumber?: string;
     logo?: logo;
     realAddress?: string;
     pictureList?: ConceptPicture[];
