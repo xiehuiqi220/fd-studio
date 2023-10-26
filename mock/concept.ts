@@ -32,8 +32,19 @@ const getLocationById = (req: Request, res: Response) => {
   }));
 };
 
+const uploadImage = (req: Request, res: Response) => {
+  res.json(Mock.mock({
+    success: true,
+    'data': {
+      'id': '@guid',
+      'url': '@image(100x100)'
+    }
+  }));
+};
+
 export default {
   'GET /api/getLocations': getLocations,
   'GET /api/getLocationById': getLocationById,
-  'GET /api/saveLocation': saveLocation
+  'POST /api/saveLocation': saveLocation,
+  'POST /api/uploadImage': uploadImage
 };
