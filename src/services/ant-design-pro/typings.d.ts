@@ -120,7 +120,13 @@ declare namespace API {
   type ProjectItem = {
     id?: string;
     title?: string;
+    createdUserId?: string;
+    createdAt?: number;
+    updatedAt?: number;
+    createdUserName?: string;
     logo?: logo;
+    director?:string;
+    orgId?: string;
     status?: string;
     description?: string;
     type?: number;
