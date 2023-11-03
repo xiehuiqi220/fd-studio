@@ -6,7 +6,7 @@ import { request } from '@umijs/max';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>('/gateway/account/currentUser', {
     method: 'GET',
     ...(options || {}),
   });
@@ -14,7 +14,7 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
+  return request<Record<string, any>>('/gateway/account/outLogin', {
     method: 'POST',
     ...(options || {}),
   });
@@ -22,7 +22,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request<API.LoginResult>('/gateway/account/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
 
 /** 获取所有项目信息 GET /api/getAllProjects */
 export async function getAllProjects(options?: { [key: string]: any }) {
-  return request<API.ProjectList>('/api/getAllProjects', {
+  return request<API.ProjectList>('/gateway/project/query', {
     method: 'GET',
     ...(options || {}),
   });
@@ -42,7 +42,7 @@ export async function getAllProjects(options?: { [key: string]: any }) {
 
 /** 根据id获取项目信息 GET /api/getAllProjects */
 export async function getProjectById(pid: string | undefined) {
-  return request<{ success: boolean, data: API.ProjectItem }>('/api/getProjectById', {
+  return request<{ success: boolean, data: API.ProjectItem }>('/gateway/project/getProjectById', {
     method: 'GET',
     params: { pid },
   });
@@ -50,7 +50,7 @@ export async function getProjectById(pid: string | undefined) {
 
 /** 更新项目信息 GET /api/getAllProjects */
 export async function updateProject(projectData:API.ProjectItem) {
-  return request<{ success: boolean, data: string }>('/api/updateProject', {
+  return request<{ success: boolean, data: string }>('/gateway/project/updateProject', {
     method: 'GET',
     params: { projectData },
   });

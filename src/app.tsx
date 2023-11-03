@@ -136,5 +136,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request = {
+  baseURL: isDev ? 'http://127.0.0.1:7001':'',
+  // xsrfCookieName: 'csrfToken', // default
+  // // `xsrfHeaderName` is the name of the http header that carries the xsrf token value
+  // xsrfHeaderName: 'x-csrf-token', // default
+  headers:{
+
+  },
+  params: {
+    _csrf:'S52fBY93UPq2mTPSomctjSC6' //需等于cookie里的值
+  },
+  withCredentials: true,
+  data: {
+
+  },
   ...errorConfig,
 };

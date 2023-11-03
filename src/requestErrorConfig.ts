@@ -32,10 +32,7 @@ export const errorConfig: RequestConfig = {
       const { success, data, errorCode, errorMessage, showType } =
         res as unknown as ResponseStructure;
       if (!success) {
-        const error: any = new Error(errorMessage);
-        error.name = 'BizError';
-        error.info = { errorCode, errorMessage, showType, data };
-        throw error; // 抛出自制的错误
+        console.error(res);
       }
     },
     // 错误接收及处理
@@ -89,7 +86,7 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123');
+      const url = config?.url?.concat('?_t='+Date.now());
       return { ...config, url };
     },
   ],
