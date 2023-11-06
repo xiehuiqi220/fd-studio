@@ -50,9 +50,9 @@ export async function getProjectById(pid: string | undefined) {
 
 /** 更新项目信息 GET /api/getAllProjects */
 export async function updateProject(projectData:API.ProjectItem) {
-  return request<{ success: boolean, data: string }>('/gateway/project/updateProject', {
-    method: 'GET',
-    params: { projectData },
+  return request<{ success: boolean, data: string }>('/gateway/project/save', {
+    method: 'POST',
+    data: projectData
   });
 }
 

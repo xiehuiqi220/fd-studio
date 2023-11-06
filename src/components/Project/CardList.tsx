@@ -12,10 +12,10 @@ const { Meta } = Card;
  * @returns
  */
 const InfoCard: React.FC<{
-  title: string | undefined;
+  title: string;
   logo: string;
-  desc: string | undefined;
-}> = ({ title, desc, logo }) => {
+  description: string;
+}> = ({ title, description, logo }) => {
   const { useToken } = theme;
   const { token } = useToken();
 
@@ -30,7 +30,7 @@ const InfoCard: React.FC<{
         <EllipsisOutlined key="ellipsis" />,
       ]}
     >
-      <Meta title="Europe Street beat" description="www.instagram.com" />
+      <Meta title={title} description={description} />
     </Card>
   );
 };
@@ -80,7 +80,7 @@ const CardList: React.FC = () => {
           key={i}
           logo={item.logo}
           title={item.title}
-          desc={item.description}
+          description={item.description}
         />
       })}
     </div>

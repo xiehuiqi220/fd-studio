@@ -1,9 +1,9 @@
 import { useModel } from '@umijs/max';
 import { useParams } from 'umi';
 import { Button, Result, message } from 'antd';
-import React, { useRef,useState,useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import type { ProFormInstance } from '@ant-design/pro-components';
-import { getProjectById,updateProject } from '@/services/ant-design-pro/api';
+import { getProjectById, updateProject } from '@/services/ant-design-pro/api';
 
 import {
   ProCard,
@@ -21,27 +21,27 @@ import { waitTime } from '@/Utils/time';
 const CreateProject: React.FC = (props) => {
   const params = useParams();
   const pid = params.id;
-  const isEdit:boolean = !!pid; //是否编辑状态
+  const isEdit: boolean = !!pid; //是否编辑状态
   const { initialState } = useModel('@@initialState');
 
   const dataDict = initialState?.dataDict;
   const formRef = useRef<ProFormInstance>();
-  let formData:API.ProjectItem = {};
+  let formData: API.ProjectItem = {};
 
   const fetchData = async () => {
     let res = await getProjectById(pid);
     const data = res.data;
-    formData = {...data};
+    formData = { ...data };
     formRef.current?.setFieldsValue(formData);
   }
 
-  const submitForm = async() => {
+  const submitForm = async () => {
     let res = await updateProject(formData);
 
-     //最终的提交
-     await waitTime(1000);
-     message.success('提交成功'+res.data);
-     console.log('保存结果',res,formData);
+    //最终的提交
+    await waitTime(1000);
+    message.success('提交成功' + res.data);
+    console.log('保存结果', res, formData);
   };
 
   useEffect(() => {
@@ -65,10 +65,10 @@ const CreateProject: React.FC = (props) => {
               ...formData,
               ...curData
             };
-            console.log('单个步骤完成',curData,formData);
+            console.log('单个步骤完成', curData, formData);
           }}
           onFinish={async () => {
-           await submitForm();
+            await submitForm();
           }}
           formProps={{
             validateMessages: {
@@ -85,6 +85,11 @@ const CreateProject: React.FC = (props) => {
               description: '项目基本设置',
             }}
           >
+            <ProFormText
+              name="id"
+              label="ID"
+              width="md"
+            />
             <ProFormText
               name="title"
               label="项目名称"
