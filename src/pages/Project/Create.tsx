@@ -9,6 +9,7 @@ import {
   ProCard,
   ProForm,
   ProFormCheckbox,
+  ProFormRadio,
   ProFormDatePicker,
   ProFormDateRangePicker,
   ProFormText,
@@ -25,23 +26,29 @@ const CreateProject: React.FC = (props) => {
   const { initialState } = useModel('@@initialState');
 
   const dataDict = initialState?.dataDict;
-  const formRef = useRef<ProFormInstance>();
-  let formData: API.ProjectItem = {};
+  const formRef = useRef<
+    React.MutableRefObject<ProFormInstance<any> | undefined>[]
+  >([]);
 
   const fetchData = async () => {
     let res = await getProjectById(pid);
     const data = res.data;
-    formData = { ...data };
-    formRef.current?.setFieldsValue(formData);
+    //分步骤遍历每一个子表单赋值，否则只有第一步骤表单有值
+    formRef?.current?.forEach((formInstanceRef) => {
+      formInstanceRef?.current?.setFieldsValue(data);
+    });
   }
 
-  const submitForm = async () => {
-    let res = await updateProject(formData);
+  const submitForm = async (allFormData:{}) => {
+    let res = await updateProject(allFormData);
 
-    //最终的提交
-    await waitTime(1000);
-    message.success('提交成功' + res.data);
-    console.log('保存结果', res, formData);
+    if(res.success){
+      message.success('提交成功');
+      history.back();
+    }else {
+      message.error('保存失败：'+res.errorMsg || '未知错误');
+    }
+    console.log('保存结果', res, allFormData);
   };
 
   useEffect(() => {
@@ -57,18 +64,11 @@ const CreateProject: React.FC = (props) => {
           stepsProps={{
             direction: 'vertical',
           }}
-          formRef={formRef}
+          formMapRef={formRef}
           onFormFinish={() => {
-            //单个步骤完成，合并数据
-            const curData = formRef.current?.getFieldsValue();
-            formData = {
-              ...formData,
-              ...curData
-            };
-            console.log('单个步骤完成', curData, formData);
           }}
-          onFinish={async () => {
-            await submitForm();
+          onFinish={async (values) => {
+            await submitForm(values);
           }}
           formProps={{
             validateMessages: {
@@ -89,6 +89,9 @@ const CreateProject: React.FC = (props) => {
               name="id"
               label="ID"
               width="md"
+              readonly={true}
+              disabled={true}
+              hidden={!isEdit}
             />
             <ProFormText
               name="title"
@@ -114,11 +117,24 @@ const CreateProject: React.FC = (props) => {
               description: '额外的信息',
             }}
           >
+            <ProFormText
+              name="director"
+              label="导演"
+              width="md"
+              placeholder="请输入导演名字"
+              rules={[{ required: true }]}
+            />
             <ProFormCheckbox.Group
               name="type"
               label="项目类型"
               width="lg"
               options={dataDict?.PROJECT_TYPES}
+            />
+            <ProFormRadio.Group
+              name="status"
+              label="状态"
+              width="lg"
+              options={dataDict?.PROJECT_STATUS}
             />
           </StepsForm.StepForm>
         </StepsForm>

@@ -124,12 +124,12 @@ declare namespace API {
     createdAt?: number;
     updatedAt?: number;
     createdUserName?: string;
-    logo?: logo;
+    logo?: string;
     director?:string;
     orgId?: string;
     status?: string;
     description?: string;
-    type?: number;
+    type?: string;
   };
 
   type ConceptPicture = {

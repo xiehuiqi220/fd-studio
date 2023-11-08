@@ -1,4 +1,4 @@
-import { useModel } from '@umijs/max';
+import { useModel,history, Link } from '@umijs/max';
 import { Card, Empty, Button, theme } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { getAllProjects } from '@/services/ant-design-pro/api';
@@ -12,10 +12,11 @@ const { Meta } = Card;
  * @returns
  */
 const InfoCard: React.FC<{
+  id: string;
   title: string;
   logo: string;
   description: string;
-}> = ({ title, description, logo }) => {
+}> = ({id, title, description, logo }) => {
   const { useToken } = theme;
   const { token } = useToken();
 
@@ -26,7 +27,7 @@ const InfoCard: React.FC<{
       cover={<img alt="example" src={logo} />}
       actions={[
         <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
+        <Link to={'/admin/project/edit/'+id}><EditOutlined key="edit" /></Link>,
         <EllipsisOutlined key="ellipsis" />,
       ]}
     >
@@ -62,7 +63,7 @@ const CardList: React.FC = () => {
         hoverable
         style={{ width: 323 }}
       >
-        <a href='./admin/project/create' style={{
+        <Link to='/admin/project/create' style={{
           display: "block",
           width: "100%",
           height: "100%"
@@ -73,11 +74,12 @@ const CardList: React.FC = () => {
           justifyContent: "center",
           alignItems: "center"
         }}><h1><PlusOutlined /></h1>
-            <h1>Create Project</h1></div></a>
+            <h1>Create Project</h1></div></Link>
       </Card>
       {projectList?.map((item: API.ProjectItem,i) => {
         return <InfoCard
           key={i}
+          id={item.id}
           logo={item.logo}
           title={item.title}
           description={item.description}
