@@ -1,6 +1,6 @@
 import { useModel } from '@umijs/max';
 import { useParams } from 'umi';
-import { Button,Card,Form, Result, message } from 'antd';
+import { Button, Card, Form, Result, message } from 'antd';
 import React, { useRef, useState, useEffect } from 'react';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { getAllLocations } from '@/services/ant-design-pro/concept';
@@ -58,28 +58,28 @@ const CardList: React.FC = () => {
 
   return (
     <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 16,
-            }}
-          >
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 16,
+      }}
+    >
       <Card
         hoverable
         style={{ width: 323 }}
       >
-       <Editor title='编辑地点'>
-       <div style={{
-          display: "flex",
-          height:"400px",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center"
-        }}><h1><PlusOutlined /></h1>
+        <Editor title='编辑地点'>
+          <div style={{
+            display: "flex",
+            height: "400px",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}><h1><PlusOutlined /></h1>
             <h1>Create Project</h1></div>
-       </Editor>
+        </Editor>
       </Card>
-      {locationList?.map((item: API.ProjectItem,i) => {
+      {locationList?.map((item: API.ProjectItem, i) => {
         return <InfoCard
           key={i}
           logo={item.logo}

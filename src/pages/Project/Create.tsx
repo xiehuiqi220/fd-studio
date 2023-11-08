@@ -17,7 +17,7 @@ import {
   StepsForm,
   PageContainer
 } from '@ant-design/pro-components';
-import { waitTime } from '@/Utils/time';
+import Uploader from '../../components/Setting/Uploader';
 
 const CreateProject: React.FC = (props) => {
   const params = useParams();
@@ -32,7 +32,10 @@ const CreateProject: React.FC = (props) => {
 
   const fetchData = async () => {
     let res = await getProjectById(pid);
-    const data = res.data;
+    let data = res.data;
+    data.logo = [{
+      url:data.logo
+    }];
     //分步骤遍历每一个子表单赋值，否则只有第一步骤表单有值
     formRef?.current?.forEach((formInstanceRef) => {
       formInstanceRef?.current?.setFieldsValue(data);
@@ -117,6 +120,7 @@ const CreateProject: React.FC = (props) => {
               description: '额外的信息',
             }}
           >
+            <Uploader name="logo" title='图片' max={1} />
             <ProFormText
               name="director"
               label="导演"
