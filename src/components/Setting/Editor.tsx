@@ -9,29 +9,51 @@ import {
   ProFormUploadDragger,
 } from '@ant-design/pro-components';
 import { Button, Form, message } from 'antd';
-import { saveLocation } from '@/services/ant-design-pro/setting';
+import { saveLocation,getLocationById } from '@/services/ant-design-pro/concept';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import Uploader from '../../components/Setting/Uploader';
 
 export type SettingFormProps = {
+  id: string;
   title: string;
   children: Element
 };
 
 const SettingEditor: React.FC<SettingFormProps> = (props) => {
-  const [form] = Form.useForm<{ name: string; company: string }>();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [form] = Form.useForm<API.Location>();
+  const id = props.id;
+  const isEdit: boolean = !!id; //是否编辑状态
 
-  const onChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
-    if (file.status !== 'done') return;
-    if (!file.response.success) {
-      message.error("上传失败");
+  const fetchData = async () => {
+    let res = await getLocationById(id);
+    if (!res?.data) {
+      message.error("未找到数据，请稍后重试");
       return;
-    };
+    }
+    let data = res.data;
+    data.logo = [{
+      url: res.data.logo,//字符串url转filelist数组
+    }];
 
-    file.thumbUrl = file.response.data.url;
-    console.log('upload image complete', file, newFileList);
-    setFileList(newFileList);
+    form.setFieldsValue(data);
+  }
+
+  const submitForm = async (allFormData: {}) => {
+    let res = await saveLocation(allFormData);
+
+    if (res.success) {
+      message.success('提交成功');
+      history.back();
+    } else {
+      message.error('保存失败：' + res.errorMsg || '未知错误');
+    }
+    console.log('保存结果', res, allFormData);
+  };
+
+  const onOpenChange = async (visible) => {
+    if(!visible)return false;
+    isEdit && fetchData();
   };
 
   return (
@@ -50,16 +72,18 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
       drawerProps={{
         destroyOnClose: true,
       }}
-      submitTimeout={2000}
-      onFinish={async (values) => {
-        console.log(values);
-        let res = await saveLocation(values);
-        const data = res.data;
-        message.success('提交成功');
-        // 不返回不会关闭弹框
-        return true;
-      }}
+      onOpenChange={onOpenChange}
+      submitTimeout={10000}
+      onFinish={submitForm}
     >
+      <ProFormText
+              name="id"
+              label="ID"
+              width="md"
+              readonly={true}
+              disabled={true}
+              hidden={!isEdit}
+            />
       <ProFormText
         name="title"
         width="md"
@@ -74,24 +98,7 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
         label="描述"
         placeholder="请输入描述"
       />
-      <ProFormUploadDragger
-        name="upload"
-        label="图片"
-        accept='.png,.jpg,.jpeg,.bmp,.webp,.gif'
-        max={4}
-        fileList={fileList}
-        onChange={onChange}
-        fieldProps={{
-          name: 'file',
-          listType: 'picture-card',
-          headers:{
-            'x-csrf-token':'vBAaS_MbxoSIhhtdZ1TvOGXx'
-          },
-          withCredentials:true,
-          multiple:true
-        }}
-        action="http://localhost:7001/gateway/image/upload?source=antd"
-      />
+      <Uploader name="logo" title='主图' max={1} />
     </DrawerForm>
   );
 };

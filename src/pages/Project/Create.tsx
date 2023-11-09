@@ -32,9 +32,13 @@ const CreateProject: React.FC = (props) => {
 
   const fetchData = async () => {
     let res = await getProjectById(pid);
+    if (!res?.data) {
+      message.error("未找到项目数据，请稍后重试");
+      return;
+    }
     let data = res.data;
     data.logo = [{
-      url:data.logo
+      url: res.data.logo,//字符串url转filelist数组
     }];
     //分步骤遍历每一个子表单赋值，否则只有第一步骤表单有值
     formRef?.current?.forEach((formInstanceRef) => {
@@ -42,14 +46,14 @@ const CreateProject: React.FC = (props) => {
     });
   }
 
-  const submitForm = async (allFormData:{}) => {
+  const submitForm = async (allFormData: {}) => {
     let res = await updateProject(allFormData);
 
-    if(res.success){
+    if (res.success) {
       message.success('提交成功');
       history.back();
-    }else {
-      message.error('保存失败：'+res.errorMsg || '未知错误');
+    } else {
+      message.error('保存失败：' + res.errorMsg || '未知错误');
     }
     console.log('保存结果', res, allFormData);
   };

@@ -4,25 +4,25 @@ import { request } from '@umijs/max';
 
 /** 获取所有地点 GET /api/getAllLocations */
 export async function getAllLocations(needPicture:false) {
-  return request<{ success: boolean, data: API.Location[]}>('/api/getLocations', {
+  return request<{ success: boolean, data: API.Location[]}>('/gateway/location/query', {
     method: 'GET',
-    params: { needPicture },
+    params: { pid:'' },
   });
 }
 
 /** 根据id获取地点 GET /api/getLocationById */
 export async function getLocationById(lid:string) {
-  return request<{ success: boolean, data: API.Location[]}>('/api/getLocationById', {
+  return request<{ success: boolean, data: API.Location,errorMsg:string}>('/gateway/location/getById', {
     method: 'GET',
-    params: { lid },
+    params: { id:lid },
   });
 }
 
 /** 更新地点 GET /api/updateShot */
-export async function updateLocation(shot:API.ShotType) {
-  return request<{ success: boolean, data: string }>('/api/updateLocation', {
-    method: 'GET',
-    params: { shot },
+export async function saveLocation(loc:API.Location) {
+  return request<{ success: boolean, data: string,errorMsg:string }>('/gateway/location/save', {
+    method: 'POST',
+    data: loc,
   });
 }
 

@@ -22,23 +22,26 @@ const { Meta } = Card;
  * @returns
  */
 const InfoCard: React.FC<{
+  id: string;
   title: string | undefined;
   logo: string;
   desc: string | undefined;
-}> = ({ title, desc, logo }) => {
+}> = ({id, title, desc, logo }) => {
   return (
-    <Card
-      hoverable
-      style={{ width: 323 }}
-      cover={<img alt="example" src={logo} />}
-      actions={[
-        <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
-        <EllipsisOutlined key="ellipsis" />,
-      ]}
-    >
-      <Meta title={title} description={desc} />
-    </Card>
+    <Editor id={id} title='编辑地点'>
+      <Card
+        hoverable
+        style={{ width: 323 }}
+        cover={<img alt="example" src={logo} />}
+        actions={[
+          <SettingOutlined key="setting" />,
+          <EditOutlined key="edit" />,
+          <EllipsisOutlined key="ellipsis" />,
+        ]}
+      >
+        <Meta title={title} description={desc} />
+      </Card>
+    </Editor>
   );
 };
 
@@ -64,24 +67,10 @@ const CardList: React.FC = () => {
         gap: 16,
       }}
     >
-      <Card
-        hoverable
-        style={{ width: 323 }}
-      >
-        <Editor title='编辑地点'>
-          <div style={{
-            display: "flex",
-            height: "400px",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
-          }}><h1><PlusOutlined /></h1>
-            <h1>Create Project</h1></div>
-        </Editor>
-      </Card>
-      {locationList?.map((item: API.ProjectItem, i) => {
+      {locationList?.map((item: API.Location, i) => {
         return <InfoCard
           key={i}
+          id={item.id}
           logo={item.logo}
           title={item.title}
           desc={item.description}

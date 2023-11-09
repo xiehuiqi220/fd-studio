@@ -124,7 +124,7 @@ declare namespace API {
     createdAt?: number;
     updatedAt?: number;
     createdUserName?: string;
-    logo?: string;
+    logo?: object[{url:string}];
     director?:string;
     orgId?: string;
     status?: string;
@@ -142,8 +142,8 @@ declare namespace API {
   type Location = {
     id?: string;
     title?: string;
-    snumber?: string;
-    logo?: logo;
+    serialNumber?: string;
+    logo?: object[{url:string}];
     realAddress?: string;
     pictureList?: ConceptPicture[];
     description?: string;

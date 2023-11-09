@@ -3,7 +3,6 @@ import {
   ProFormUploadDragger,
 } from '@ant-design/pro-components';
 import { Button, Form, message } from 'antd';
-import { saveLocation } from '@/services/ant-design-pro/setting';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import React, { useState } from 'react';
 
