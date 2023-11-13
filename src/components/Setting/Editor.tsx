@@ -40,11 +40,13 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
   }
 
   const submitForm = async (allFormData: {}) => {
+    debugger
     let res = await saveLocation(allFormData);
 
     if (res.success) {
       message.success('提交成功');
-      history.back();
+      location.reload();
+      return true;//会关闭表单
     } else {
       message.error('保存失败：' + res.errorMsg || '未知错误');
     }
@@ -89,7 +91,9 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
         width="md"
         label="名称"
         tooltip="最长为 24 位"
+        required={true}
         placeholder="请输入名称"
+        rules={[{ required: true, message: '这是必填项' }]}
       />
       <ProFormText width="sm" name="snumber" label="编号" />
       <ProFormTextArea
