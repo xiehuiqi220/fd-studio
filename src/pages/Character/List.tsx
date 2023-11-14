@@ -3,7 +3,7 @@ import { useParams } from 'umi';
 import { Button, Card, Form, Result, message } from 'antd';
 import React, { useRef, useState, useEffect } from 'react';
 import type { ProFormInstance } from '@ant-design/pro-components';
-import { getAllLocations, getLocationById, saveLocation } from '@/services/ant-design-pro/concept';
+import { getAllCharacters, getCharacterById, saveCharacter } from '@/services/ant-design-pro/concept';
 import { EditOutlined, PlusOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import {
   DrawerForm,
@@ -26,37 +26,41 @@ const InfoCard: React.FC<{
   title: string | undefined;
   logo: string;
   desc: string | undefined;
-}> = ({id, title, desc, logo }) => {
+}> = ({ id, title, desc, logo }) => {
   return (
-    <Editor id={id} title='编辑地点' saveFn={saveLocation} getIdFn={getLocationById}>
-      <Card
-        hoverable
-        style={{ width: 323 }}
-        cover={<img alt="example" src={logo} />}
-        actions={[
-          <SettingOutlined key="setting" />,
-          <EditOutlined key="edit" />,
-          <EllipsisOutlined key="ellipsis" />,
-        ]}
-      >
-        <Meta title={title} description={desc} />
-      </Card>
-    </Editor>
+    <Editor id={id} title='编辑角色' extraFields={{
+      age: true,
+      gender:true,
+      personality:true
+    }} saveFn = { saveCharacter } getIdFn = { getCharacterById } >
+    <Card
+      hoverable
+      style={{ width: 323 }}
+      cover={<img alt="example" src={logo} />}
+      actions={[
+        <SettingOutlined key="setting" />,
+        <EditOutlined key="edit" />,
+        <EllipsisOutlined key="ellipsis" />,
+      ]}
+    >
+      <Meta title={title} description={desc} />
+    </Card>
+    </Editor >
   );
 };
 
 const CardList: React.FC = () => {
   const { initialState } = useModel('@@initialState');
-  const [locationList, setLocationList] = useState<API.Location[] | undefined>([]);
+  const [characterList, setCharacterList] = useState<API.Character[] | undefined>([]);
 
-  const fetchLocations = async () => {
-    let res = await getAllLocations(false);
+  const fetchCharacters = async () => {
+    let res = await getAllCharacters(false);
     const data = res.data;
-    setLocationList(data);
+    setCharacterList(data);
   }
 
   useEffect(() => {
-    fetchLocations();
+    fetchCharacters();
   }, []);
 
   return (
@@ -67,7 +71,7 @@ const CardList: React.FC = () => {
         gap: 16,
       }}
     >
-      {locationList?.map((item: API.Location, i) => {
+      {characterList?.map((item: API.Character, i) => {
         return <InfoCard
           key={i}
           id={item.id}
@@ -87,7 +91,7 @@ import {
 import { waitTime } from '@/Utils/time';
 import { Descriptions } from 'antd/lib';
 
-const LocList: React.FC = (props) => {
+const CharacterList: React.FC = (props) => {
   useEffect(() => {
   }, []);
 
@@ -98,4 +102,4 @@ const LocList: React.FC = (props) => {
   )
 };
 
-export default LocList;
+export default CharacterList;

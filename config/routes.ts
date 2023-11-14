@@ -65,7 +65,7 @@ export default [
       },{
         path: '/admin/role/manager',
         name: 'role.manage',
-        component: './Location/LocList',
+        component: './Character/List',
       }
     ],
   },

@@ -4,29 +4,35 @@ import {
   ProForm,
   ProFormDateRangePicker,
   ProFormSelect,
+  ProFormRadio,
+  ProFormDigit,
   ProFormText,
   ProFormTextArea,
   ProFormUploadDragger,
 } from '@ant-design/pro-components';
 import { Button, Form, message } from 'antd';
-import { saveLocation,getLocationById } from '@/services/ant-design-pro/concept';
+import { saveLocation, getLocationById } from '@/services/ant-design-pro/concept';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Uploader from '../../components/Setting/Uploader';
 
 export type SettingFormProps = {
   id: string;
   title: string;
-  children: Element
+  getIdFn: Function;
+  saveFn: Function;
+  children: Element;
+  extraFields:{}
 };
 
 const SettingEditor: React.FC<SettingFormProps> = (props) => {
-  const [form] = Form.useForm<API.Location>();
-  const id = props.id;
+  const [form] = Form.useForm();
+  const {id,getIdFn,saveFn} = props;
+  const extraFields = props.extraFields || {};
   const isEdit: boolean = !!id; //是否编辑状态
 
   const fetchData = async () => {
-    let res = await getLocationById(id);
+    let res = await getIdFn(id);
     if (!res?.data) {
       message.error("未找到数据，请稍后重试");
       return;
@@ -40,8 +46,7 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
   }
 
   const submitForm = async (allFormData: {}) => {
-    debugger
-    let res = await saveLocation(allFormData);
+    let res = await saveFn(allFormData);
 
     if (res.success) {
       message.success('提交成功');
@@ -54,7 +59,7 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
   };
 
   const onOpenChange = async (visible) => {
-    if(!visible)return false;
+    if (!visible) return false;
     isEdit && fetchData();
   };
 
@@ -62,9 +67,6 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
     <DrawerForm<API.Location>
       title={props.title}
       resize={{
-        onResize() {
-          console.log('resize!');
-        },
         maxWidth: window.innerWidth * 0.8,
         minWidth: 300,
       }}
@@ -79,13 +81,13 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
       onFinish={submitForm}
     >
       <ProFormText
-              name="id"
-              label="ID"
-              width="md"
-              readonly={true}
-              disabled={true}
-              hidden={!isEdit}
-            />
+        name="id"
+        label="ID"
+        width="md"
+        readonly={true}
+        disabled={true}
+        hidden={!isEdit}
+      />
       <ProFormText
         name="title"
         width="md"
@@ -95,6 +97,22 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
         placeholder="请输入名称"
         rules={[{ required: true, message: '这是必填项' }]}
       />
+      {'age' in extraFields && <ProFormDigit min={1} width="sm" name="age" addonAfter="岁" label="年龄" />}
+      {'gender' in extraFields && <ProFormRadio.Group width="sm" name="gender" label="性别" options={[
+    {
+      label: '男',
+      value: 'male',
+    },
+    {
+      label: '女',
+      value: 'female',
+    },
+    {
+      label: '其他',
+      value: 'other',
+    },
+  ]} />}
+        {'personality' in extraFields && <ProFormTextArea width="sm" name="personality" label="性格特点" />}
       <ProFormText width="sm" name="snumber" label="编号" />
       <ProFormTextArea
         width="md"

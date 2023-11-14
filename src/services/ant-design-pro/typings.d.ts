@@ -150,6 +150,18 @@ declare namespace API {
     type?: number;
   };
 
+  type Character = {
+    id?: string;
+    age?:number;
+    gender?:string;
+    title?: string;
+    serialNumber?: string;
+    logo?: object[{url:string}];
+    pictureList?: ConceptPicture[];
+    description?: string;
+    type?: number;
+  }
+
   type NoticeIconItem = {
     id?: string;
     extra?: string;
