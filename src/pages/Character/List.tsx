@@ -1,21 +1,37 @@
-import { useModel } from '@umijs/max';
-import { useParams } from 'umi';
-import { Button, Card, Form, Result, message } from 'antd';
-import React, { useRef, useState, useEffect } from 'react';
-import type { ProFormInstance } from '@ant-design/pro-components';
-import { getAllCharacters, getCharacterById, saveCharacter } from '@/services/ant-design-pro/concept';
-import { EditOutlined, PlusOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import {
-  DrawerForm,
-  ProForm,
-  ProFormDateRangePicker,
-  ProFormSelect,
-  ProFormText,
-} from '@ant-design/pro-components';
+  getAllCharacters,
+  getCharacterById,
+  saveCharacter,
+} from '@/services/ant-design-pro/concept';
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { PageContainer } from '@ant-design/pro-components';
+import { useModel } from '@umijs/max';
+import { Button, Card } from 'antd';
+import React, { useEffect, useState } from 'react';
 import Editor from '../../components/Setting/Editor';
 
 const { Meta } = Card;
 
+const CharacterEditor: React.FC<{
+  id: string | undefined;
+  children: React.JSX.Element;
+}> = ({ id, children }) => {
+  return (
+    <Editor
+      id={id}
+      title="编辑角色"
+      extraFields={{
+        age: true,
+        gender: true,
+        personality: true,
+      }}
+      saveFn={saveCharacter}
+      getIdFn={getCharacterById}
+    >
+      {children}
+    </Editor>
+  );
+};
 /**
  * 每个单独的卡片，为了复用样式抽成了组件
  * @param param0
@@ -28,24 +44,20 @@ const InfoCard: React.FC<{
   desc: string | undefined;
 }> = ({ id, title, desc, logo }) => {
   return (
-    <Editor id={id} title='编辑角色' extraFields={{
-      age: true,
-      gender:true,
-      personality:true
-    }} saveFn = { saveCharacter } getIdFn = { getCharacterById } >
-    <Card
-      hoverable
-      style={{ width: 323 }}
-      cover={<img alt="example" src={logo} />}
-      actions={[
-        <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
-        <EllipsisOutlined key="ellipsis" />,
-      ]}
-    >
-      <Meta title={title} description={desc} />
-    </Card>
-    </Editor >
+    <CharacterEditor id={id}>
+      <Card
+        hoverable
+        style={{ width: 323 }}
+        cover={<img alt="example" src={logo} />}
+        actions={[
+          <SettingOutlined key="setting" />,
+          <EditOutlined key="edit" />,
+          <EllipsisOutlined key="ellipsis" />,
+        ]}
+      >
+        <Meta title={title} description={desc} />
+      </Card>
+    </CharacterEditor>
   );
 };
 
@@ -57,7 +69,7 @@ const CardList: React.FC = () => {
     let res = await getAllCharacters(false);
     const data = res.data;
     setCharacterList(data);
-  }
+  };
 
   useEffect(() => {
     fetchCharacters();
@@ -72,34 +84,34 @@ const CardList: React.FC = () => {
       }}
     >
       {characterList?.map((item: API.Character, i) => {
-        return <InfoCard
-          key={i}
-          id={item.id}
-          logo={item.logo}
-          title={item.title}
-          desc={item.description}
-        />
+        return (
+          <InfoCard
+            key={i}
+            id={item.id}
+            logo={item.logo}
+            title={item.title}
+            desc={item.description}
+          />
+        );
       })}
     </div>
   );
 };
 
-import {
-  ProCard,
-  PageContainer
-} from '@ant-design/pro-components';
-import { waitTime } from '@/Utils/time';
-import { Descriptions } from 'antd/lib';
-
 const CharacterList: React.FC = (props) => {
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
-    <PageContainer>
+    <PageContainer
+      extra={[
+        <CharacterEditor key={0} id="">
+          <Button title="创建角色">创建角色</Button>
+        </CharacterEditor>,
+      ]}
+    >
       <CardList />
     </PageContainer>
-  )
+  );
 };
 
 export default CharacterList;

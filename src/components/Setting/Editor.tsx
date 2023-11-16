@@ -1,66 +1,63 @@
-import { PlusOutlined } from '@ant-design/icons';
 import {
   DrawerForm,
-  ProForm,
-  ProFormDateRangePicker,
-  ProFormSelect,
-  ProFormRadio,
   ProFormDigit,
+  ProFormRadio,
   ProFormText,
   ProFormTextArea,
-  ProFormUploadDragger,
 } from '@ant-design/pro-components';
-import { Button, Form, message } from 'antd';
-import { saveLocation, getLocationById } from '@/services/ant-design-pro/concept';
-import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
-import React, { useState, useEffect } from 'react';
+import { Form, message } from 'antd';
+import React from 'react';
 import Uploader from '../../components/Setting/Uploader';
 
 export type SettingFormProps = {
-  id: string;
+  id: string | undefined;
   title: string;
-  getIdFn: Function;
-  saveFn: Function;
-  children: Element;
-  extraFields:{}
+  getIdFn: (id: string) => Promise<object>;
+  saveFn: (data: object) => object;
+  children: React.JSX.Element;
+  extraFields: object;
 };
 
 const SettingEditor: React.FC<SettingFormProps> = (props) => {
   const [form] = Form.useForm();
-  const {id,getIdFn,saveFn} = props;
+  const { id, getIdFn, saveFn } = props;
   const extraFields = props.extraFields || {};
   const isEdit: boolean = !!id; //是否编辑状态
 
   const fetchData = async () => {
     let res = await getIdFn(id);
     if (!res?.data) {
-      message.error("未找到数据，请稍后重试");
+      message.error('未找到数据，请稍后重试');
       return;
     }
     let data = res.data;
-    data.logo = [{
-      url: res.data.logo,//字符串url转filelist数组
-    }];
+    data.logo = [
+      {
+        url: res.data.logo, //字符串url转filelist数组
+      },
+    ];
 
     form.setFieldsValue(data);
-  }
+  };
 
-  const submitForm = async (allFormData: {}) => {
+  const submitForm = async (allFormData: object) => {
     let res = await saveFn(allFormData);
 
     if (res.success) {
       message.success('提交成功');
       location.reload();
-      return true;//会关闭表单
+      return true; //会关闭表单
     } else {
       message.error('保存失败：' + res.errorMsg || '未知错误');
     }
     console.log('保存结果', res, allFormData);
   };
 
-  const onOpenChange = async (visible) => {
+  const onOpenChange = async (visible: boolean) => {
     if (!visible) return false;
-    isEdit && fetchData();
+    if (isEdit) {
+      await fetchData();
+    }
   };
 
   return (
@@ -97,30 +94,36 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
         placeholder="请输入名称"
         rules={[{ required: true, message: '这是必填项' }]}
       />
-      {'age' in extraFields && <ProFormDigit min={1} width="sm" name="age" addonAfter="岁" label="年龄" />}
-      {'gender' in extraFields && <ProFormRadio.Group width="sm" name="gender" label="性别" options={[
-    {
-      label: '男',
-      value: 'male',
-    },
-    {
-      label: '女',
-      value: 'female',
-    },
-    {
-      label: '其他',
-      value: 'other',
-    },
-  ]} />}
-        {'personality' in extraFields && <ProFormTextArea width="sm" name="personality" label="性格特点" />}
+      {'age' in extraFields && (
+        <ProFormDigit min={1} width="sm" name="age" addonAfter="岁" label="年龄" />
+      )}
+      {'gender' in extraFields && (
+        <ProFormRadio.Group
+          width="sm"
+          name="gender"
+          label="性别"
+          options={[
+            {
+              label: '男',
+              value: 'male',
+            },
+            {
+              label: '女',
+              value: 'female',
+            },
+            {
+              label: '其他',
+              value: 'other',
+            },
+          ]}
+        />
+      )}
+      {'personality' in extraFields && (
+        <ProFormTextArea width="sm" name="personality" label="性格特点" />
+      )}
       <ProFormText width="sm" name="snumber" label="编号" />
-      <ProFormTextArea
-        width="md"
-        name="description"
-        label="描述"
-        placeholder="请输入描述"
-      />
-      <Uploader name="logo" title='主图' max={1} />
+      <ProFormTextArea width="md" name="description" label="描述" placeholder="请输入描述" />
+      <Uploader name="logo" title="主图" max={1} />
     </DrawerForm>
   );
 };
