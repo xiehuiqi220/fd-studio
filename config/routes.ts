@@ -42,31 +42,42 @@ export default [
         path: '/admin/sub-page',
         name: 'sub-page',
         component: './Admin',
-      },{
+      },
+      {
         path: '/admin/project/edit/:id',
         name: 'project.edit',
         component: './Project/Create',
-      },{
+      },
+      {
         path: '/admin/project/list',
         name: 'project.list',
         component: './Project/List',
-      },{
+      },
+      {
         path: '/admin/project/create',
         name: 'project.create',
         component: './Project/Create',
-      },{
+      },
+      {
         path: '/admin/storyboard/edit/:id',
         name: 'storyboard.edit',
         component: './Storyboard/Edit',
-      },{
+      },
+      {
         path: '/admin/location/manager',
         name: 'location.manage',
         component: './Location/LocList',
-      },{
+      },
+      {
         path: '/admin/role/manager',
         name: 'role.manage',
         component: './Character/List',
-      }
+      },
+      {
+        path: '/admin/script/editor',
+        name: 'script.editor',
+        component: './Script/ScriptEditor',
+      },
     ],
   },
   {

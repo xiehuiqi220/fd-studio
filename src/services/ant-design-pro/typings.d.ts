@@ -89,7 +89,7 @@ declare namespace API {
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
-  }
+  };
 
   type NoticeIconItemType = 'notification' | 'message' | 'event';
 
@@ -124,12 +124,30 @@ declare namespace API {
     createdAt?: number;
     updatedAt?: number;
     createdUserName?: string;
-    logo?: object[{url:string}];
-    director?:string;
+    logo?: object[{ url: string }];
+    director?: string;
     orgId?: string;
     status?: string;
     description?: string;
     type?: string;
+  };
+
+  type Script = {
+    id?: string;
+    projectId?: string;
+    title?: string;
+    description?: string;
+    createdUserId?: string;
+    createdAt?: number;
+    updatedAt?: number;
+    sectionList?: [
+      object[{
+        id?: string;
+        scriptId?: string;
+        location?: string;
+        content?: string;
+      }],
+    ];
   };
 
   type ConceptPicture = {
@@ -143,7 +161,7 @@ declare namespace API {
     id?: string;
     title?: string;
     serialNumber?: string;
-    logo?: object[{url:string}];
+    logo?: object[{ url: string }];
     realAddress?: string;
     pictureList?: ConceptPicture[];
     description?: string;
@@ -152,15 +170,15 @@ declare namespace API {
 
   type Character = {
     id?: string;
-    age?:number;
-    gender?:string;
+    age?: number;
+    gender?: string;
     title?: string;
     serialNumber?: string;
-    logo?: object[{url:string}];
+    logo?: object[{ url: string }];
     pictureList?: ConceptPicture[];
     description?: string;
     type?: number;
-  }
+  };
 
   type NoticeIconItem = {
     id?: string;
