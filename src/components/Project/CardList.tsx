@@ -1,8 +1,8 @@
-import { useModel, history, Link } from '@umijs/max';
-import { Card, Image, Button, theme } from 'antd';
-import React, { useState, useEffect } from 'react';
 import { getAllProjects } from '@/services/ant-design-pro/api';
-import { EditOutlined, PlusOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { EditOutlined, FolderViewOutlined, PlusOutlined } from '@ant-design/icons';
+import { Link, useModel } from '@umijs/max';
+import { Card, Image, theme } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const { Meta } = Card;
 const CARD_WIDTH = 323;
@@ -27,12 +27,25 @@ const InfoCard: React.FC<{
     <Card
       hoverable
       style={{ width: CARD_WIDTH, height: CARD_HEIGHT }}
-      cover={<Image alt="example" fallback={initialState?.dataDict.FALLBACK_IMG} width={ CARD_WIDTH} height={ CARD_COVER_HEIGHT } src={logo} />}
+      cover={
+        <Image
+          alt="example"
+          fallback={initialState?.dataDict.FALLBACK_IMG}
+          width={CARD_WIDTH}
+          height={CARD_COVER_HEIGHT}
+          src={logo}
+        />
+      }
       actions={[
-        <Link to={'/admin/project/edit/' + id}><EditOutlined key="edit" /></Link>,
+        <Link key="d" to={'/admin/project/detail/' + id}>
+          <FolderViewOutlined key="detail" />
+        </Link>,
+        <Link key="e" to={'/admin/project/edit/' + id}>
+          <EditOutlined key="edit" />
+        </Link>,
       ]}
     >
-      <Meta style={{height:META_HEIGHT}} title={title} description={description} />
+      <Meta style={{ height: META_HEIGHT }} title={title} description={description} />
     </Card>
   );
 };
@@ -45,7 +58,7 @@ const CardList: React.FC = () => {
     let res = await getAllProjects();
     const data = res.data;
     setProjectList(data);
-  }
+  };
 
   useEffect(() => {
     fetchProjects();
@@ -59,35 +72,44 @@ const CardList: React.FC = () => {
         gap: 16,
       }}
     >
-      <Card
-        hoverable
-        style={{ width: CARD_WIDTH, height: CARD_HEIGHT }}
-      >
-        <Link to='/admin/project/create' style={{
-          display: "block",
-          width: "100%",
-          height: "100%"
-        }}><div style={{
-          display: "flex",
-          height: "400px",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center"
-        }}><h1><PlusOutlined /></h1>
-            <h1>Create Project</h1></div></Link>
+      <Card hoverable style={{ width: CARD_WIDTH, height: CARD_HEIGHT }}>
+        <Link
+          to="/admin/project/create"
+          style={{
+            display: 'block',
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              height: '400px',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <h1>
+              <PlusOutlined />
+            </h1>
+            <h1>Create Project</h1>
+          </div>
+        </Link>
       </Card>
       {projectList?.map((item: API.ProjectItem, i) => {
-        return <InfoCard
-          key={i}
-          id={item.id}
-          logo={item.logo}
-          title={item.title}
-          description={item.description}
-        />
+        return (
+          <InfoCard
+            key={i}
+            id={item.id}
+            logo={item.logo}
+            title={item.title}
+            description={item.description}
+          />
+        );
       })}
     </div>
   );
 };
 
 export default CardList;
-

@@ -21,7 +21,7 @@ const ScriptEditor: React.FC = (props) => {
   const { initialState } = useModel('@@initialState');
 
   const dataDict = initialState?.dataDict;
-  const formRef = useRef<React.MutableRefObject<ProFormInstance<any> | undefined>[]>([]);
+  const formRef = useRef<ProFormInstance>();
 
   const fetchData = async () => {
     let res = await getScriptById(pid);
@@ -31,9 +31,7 @@ const ScriptEditor: React.FC = (props) => {
     }
     let data = res.data;
 
-    formRef?.current?.forEach((formInstanceRef) => {
-      formInstanceRef?.current?.setFieldsValue(data);
-    });
+    formRef?.current?.setFieldsValue(data);
   };
 
   const submitForm = async (allFormData: object) => {
@@ -68,6 +66,7 @@ const ScriptEditor: React.FC = (props) => {
     >
       <ProForm
         layout="horizontal"
+        formRef={formRef}
         onFinish={async (values) => {
           await submitForm(values);
           return true;

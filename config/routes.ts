@@ -59,6 +59,11 @@ export default [
         component: './Project/Create',
       },
       {
+        path: '/admin/project/detail/:id',
+        name: 'project.detail',
+        component: './Project/Detail',
+      },
+      {
         path: '/admin/storyboard/edit/:id',
         name: 'storyboard.edit',
         component: './Storyboard/Edit',
@@ -74,7 +79,7 @@ export default [
         component: './Character/List',
       },
       {
-        path: '/admin/script/editor',
+        path: '/admin/script/editor/:id',
         name: 'script.editor',
         component: './Script/ScriptEditor',
       },
