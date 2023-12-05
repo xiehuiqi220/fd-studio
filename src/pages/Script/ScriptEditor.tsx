@@ -19,6 +19,7 @@ const ScriptEditor: React.FC = (props) => {
   const pid = params.id;
   const isEdit: boolean = !!pid; //是否编辑状态
   const { initialState } = useModel('@@initialState');
+  const initailSection = [{ id: '', location: 'xx家', content: '小蜜说：' }];
 
   const dataDict = initialState?.dataDict;
   const formRef = useRef<ProFormInstance>();
@@ -30,7 +31,6 @@ const ScriptEditor: React.FC = (props) => {
       return;
     }
     let data = res.data;
-
     formRef?.current?.setFieldsValue(data);
   };
 
@@ -96,8 +96,9 @@ const ScriptEditor: React.FC = (props) => {
           label="剧本名"
           rules={[{ required: true }]}
         />
+        <ProFormTextArea style={{ padding: 0 }} width="md" name="description" label="简介" />
         <ProFormList
-          name="sectionList"
+          name="scriptSections"
           label="段落"
           creatorButtonProps={{
             creatorButtonText: '添加场',
@@ -116,7 +117,7 @@ const ScriptEditor: React.FC = (props) => {
             </ProCard>
           )}
           creatorRecord={{ name: '', items: [{ name: '' }] }}
-          initialValue={[{ id: '', location: 'xx家', content: '小蜜说：' }]}
+          initialValue={initailSection}
         >
           <ProFormText
             name="id"

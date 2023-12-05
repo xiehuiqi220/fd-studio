@@ -83,6 +83,11 @@ export default [
         name: 'script.editor',
         component: './Script/ScriptEditor',
       },
+      {
+        path: '/admin/script/create',
+        name: 'script.create',
+        component: './Script/ScriptEditor',
+      },
     ],
   },
   {

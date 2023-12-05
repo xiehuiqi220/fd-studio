@@ -1,7 +1,7 @@
 import { getProjectById } from '@/services/ant-design-pro/api';
 import { getByProject } from '@/services/ant-design-pro/script';
 import { history } from '@umijs/max';
-import { Button, Descriptions, Divider, Image, message } from 'antd';
+import { Button, Descriptions, Divider, Empty, Image, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'umi';
 
@@ -11,7 +11,7 @@ const ProjectList: React.FC = (props) => {
   const params = useParams();
   const pid = params.id;
   const [data, setData] = useState<API.ProjectItem>({});
-  const [scripts, setScripts] = useState<[API.Script]>();
+  const [scripts, setScripts] = useState<API.Script[]>();
 
   const fetchData = async () => {
     let res = await getProjectById(pid);
@@ -75,6 +75,19 @@ const ProjectList: React.FC = (props) => {
           </Descriptions.Item>
         ))}
       </Descriptions>
+      {scripts?.length === 0 ? (
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{ height: 60 }}
+          description={<span>还没有剧本，点下面的按钮去创建吧</span>}
+        >
+          <Button type="primary">
+            <Link to={'../script/create'}>创建剧本</Link>
+          </Button>
+        </Empty>
+      ) : (
+        ''
+      )}
     </PageContainer>
   );
 };

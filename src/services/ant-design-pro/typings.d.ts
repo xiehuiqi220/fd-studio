@@ -140,7 +140,7 @@ declare namespace API {
     createdUserId?: string;
     createdAt?: number;
     updatedAt?: number;
-    sectionList?: [
+    scriptSections?: [
       object[{
         id?: string;
         scriptId?: string;
