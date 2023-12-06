@@ -66,7 +66,7 @@ const CardList: React.FC = () => {
   const [characterList, setCharacterList] = useState<API.Character[] | undefined>([]);
 
   const fetchCharacters = async () => {
-    let res = await getAllCharacters(false);
+    let res = await getAllCharacters(initialState?.currentProjectId, false);
     const data = res.data;
     setCharacterList(data);
   };

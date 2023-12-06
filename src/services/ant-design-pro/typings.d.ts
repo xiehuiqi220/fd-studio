@@ -138,8 +138,8 @@ declare namespace API {
     title?: string;
     description?: string;
     createdUserId?: string;
-    createdAt?: number;
-    updatedAt?: number;
+    createdAt?: string;
+    updatedAt?: string;
     scriptSections?: [
       object[{
         id?: string;

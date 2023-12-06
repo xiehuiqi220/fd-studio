@@ -1,10 +1,10 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { Card,List, theme } from 'antd';
+import { Card, theme } from 'antd';
 import React from 'react';
-import CardList from '../components/Project/CardList'
+import CardList from '../components/Project/CardList';
 
-const Welcome: React.FC = () => {
+const Index: React.FC = () => {
   const { token } = theme.useToken();
   const { initialState } = useModel('@@initialState');
   return (
@@ -51,11 +51,11 @@ const Welcome: React.FC = () => {
             的脚手架方案。致力于在设计规范和基础组件的基础上，继续向上构建，提炼出典型模板/业务组件/配套设计资源，进一步提升企业级中后台产品设计研发过程中的『用户』和『设计者』的体验。
           </p>
 
-            <CardList />
+          <CardList />
         </div>
       </Card>
     </PageContainer>
   );
 };
 
-export default Welcome;
+export default Index;

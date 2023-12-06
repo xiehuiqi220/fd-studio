@@ -1,17 +1,30 @@
 import { getProjectById } from '@/services/ant-design-pro/api';
-import { getByProject } from '@/services/ant-design-pro/script';
-import { history } from '@umijs/max';
-import { Button, Descriptions, Divider, Empty, Image, message } from 'antd';
+import { history, useModel } from '@umijs/max';
+import { Button, Descriptions, Divider, Image, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'umi';
+import { useParams } from 'umi';
+import SList from '../../components/Project/ScriptList';
 
 import { PageContainer } from '@ant-design/pro-components';
 
-const ProjectList: React.FC = (props) => {
+const ProjectList: React.FC = () => {
   const params = useParams();
-  const pid = params.id;
+  let pid = params.id;
   const [data, setData] = useState<API.ProjectItem>({});
-  const [scripts, setScripts] = useState<API.Script[]>();
+  const { initialState, setInitialState } = useModel('@@initialState');
+  if (!pid) {
+    pid = initialState?.currentProjectId;
+  }
+  if (pid) {
+    setInitialState((s) => ({
+      ...s,
+      currentProjectId: pid,
+    }));
+
+    console.log('切换到项目', initialState?.currentProjectId);
+  } else {
+    message.error('错误的参数');
+  }
 
   const fetchData = async () => {
     let res = await getProjectById(pid);
@@ -21,9 +34,6 @@ const ProjectList: React.FC = (props) => {
     }
     let data = res.data;
     setData(data);
-
-    const scriptList = await getByProject(pid);
-    setScripts(scriptList.data);
   };
 
   useEffect(() => {
@@ -62,32 +72,7 @@ const ProjectList: React.FC = (props) => {
         <Descriptions.Item label="组织">{data.orgId}</Descriptions.Item>
       </Descriptions>
       <Divider />
-      <Descriptions
-        bordered
-        title="剧本"
-        size={'default'}
-        labelStyle={{ maxWidth: 250, minWidth: 150, width: 200 }}
-        column={1}
-      >
-        {scripts?.map((s) => (
-          <Descriptions.Item key={s.id} label="剧本名">
-            <Link to={`/admin/script/editor/${s.id}`}>{s.title}</Link>
-          </Descriptions.Item>
-        ))}
-      </Descriptions>
-      {scripts?.length === 0 ? (
-        <Empty
-          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-          imageStyle={{ height: 60 }}
-          description={<span>还没有剧本，点下面的按钮去创建吧</span>}
-        >
-          <Button type="primary">
-            <Link to={'../script/create'}>创建剧本</Link>
-          </Button>
-        </Empty>
-      ) : (
-        ''
-      )}
+      <SList pid={pid} />
     </PageContainer>
   );
 };

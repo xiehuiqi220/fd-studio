@@ -1,17 +1,8 @@
-import { useModel } from '@umijs/max';
-import { useParams } from 'umi';
-import { Button, Card, Form, Result, message } from 'antd';
-import React, { useRef, useState, useEffect } from 'react';
-import type { ProFormInstance } from '@ant-design/pro-components';
 import { getAllLocations, getLocationById, saveLocation } from '@/services/ant-design-pro/concept';
-import { EditOutlined, PlusOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import {
-  DrawerForm,
-  ProForm,
-  ProFormDateRangePicker,
-  ProFormSelect,
-  ProFormText,
-} from '@ant-design/pro-components';
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { useModel } from '@umijs/max';
+import { Card } from 'antd';
+import React, { useEffect, useState } from 'react';
 import Editor from '../../components/Setting/Editor';
 
 const { Meta } = Card;
@@ -26,9 +17,9 @@ const InfoCard: React.FC<{
   title: string | undefined;
   logo: string;
   desc: string | undefined;
-}> = ({id, title, desc, logo }) => {
+}> = ({ id, title, desc, logo }) => {
   return (
-    <Editor id={id} title='编辑地点' saveFn={saveLocation} getIdFn={getLocationById}>
+    <Editor id={id} title="编辑地点" saveFn={saveLocation} getIdFn={getLocationById}>
       <Card
         hoverable
         style={{ width: 323 }}
@@ -47,13 +38,15 @@ const InfoCard: React.FC<{
 
 const CardList: React.FC = () => {
   const { initialState } = useModel('@@initialState');
+  const pid = initialState?.currentProjectId;
+
   const [locationList, setLocationList] = useState<API.Location[] | undefined>([]);
 
   const fetchLocations = async () => {
-    let res = await getAllLocations(false);
+    let res = await getAllLocations(pid, false);
     const data = res.data;
     setLocationList(data);
-  }
+  };
 
   useEffect(() => {
     fetchLocations();
@@ -68,34 +61,30 @@ const CardList: React.FC = () => {
       }}
     >
       {locationList?.map((item: API.Location, i) => {
-        return <InfoCard
-          key={i}
-          id={item.id}
-          logo={item.logo}
-          title={item.title}
-          desc={item.description}
-        />
+        return (
+          <InfoCard
+            key={i}
+            id={item.id}
+            logo={item.logo}
+            title={item.title}
+            desc={item.description}
+          />
+        );
       })}
     </div>
   );
 };
 
-import {
-  ProCard,
-  PageContainer
-} from '@ant-design/pro-components';
-import { waitTime } from '@/Utils/time';
-import { Descriptions } from 'antd/lib';
+import { PageContainer } from '@ant-design/pro-components';
 
 const LocList: React.FC = (props) => {
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <PageContainer>
       <CardList />
     </PageContainer>
-  )
+  );
 };
 
 export default LocList;

@@ -5,12 +5,11 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
-import defaultSettings from '../config/defaultSettings';
 import DATA_DICTS from '../config/constants';
+import defaultSettings from '../config/defaultSettings';
+import { AvatarDropdown, AvatarName } from './components/RightContent/AvatarDropdown';
 import { errorConfig } from './requestErrorConfig';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
-import React from 'react';
-import { AvatarDropdown, AvatarName } from './components/RightContent/AvatarDropdown';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -20,7 +19,8 @@ const loginPath = '/user/login';
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
-  dataDict:any;
+  dataDict: any;
+  currentProjectId: '';
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
@@ -42,13 +42,15 @@ export async function getInitialState(): Promise<{
     return {
       fetchUserInfo,
       currentUser,
-      dataDict:DATA_DICTS,
+      currentProjectId: '',
+      dataDict: DATA_DICTS,
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   }
   return {
     fetchUserInfo,
-    dataDict:DATA_DICTS,
+    dataDict: DATA_DICTS,
+    currentProjectId: '',
     settings: defaultSettings as Partial<LayoutSettings>,
   };
 }
@@ -136,19 +138,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request = {
-  baseURL: isDev ? 'http://127.0.0.1:7001':'',
+  baseURL: isDev ? 'http://127.0.0.1:7001' : '',
   // xsrfCookieName: 'csrfToken', // default
   // // `xsrfHeaderName` is the name of the http header that carries the xsrf token value
   // xsrfHeaderName: 'x-csrf-token', // default
-  headers:{
-
-  },
+  headers: {},
   params: {
-    _csrf:'S52fBY93UPq2mTPSomctjSC6' //需等于cookie里的值
+    _csrf: 'S52fBY93UPq2mTPSomctjSC6', //需等于cookie里的值
   },
   withCredentials: true,
-  data: {
-
-  },
+  data: {},
   ...errorConfig,
 };
