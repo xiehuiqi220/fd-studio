@@ -7,23 +7,14 @@ import SList from '../../components/Project/ScriptList';
 
 import { PageContainer } from '@ant-design/pro-components';
 
-const ProjectList: React.FC = () => {
+const ProjecDetail: React.FC = () => {
   const params = useParams();
-  let pid = params.id;
+  const pid = params.id || '';
   const [data, setData] = useState<API.ProjectItem>({});
   const { initialState, setInitialState } = useModel('@@initialState');
   if (!pid) {
-    pid = initialState?.currentProjectId;
-  }
-  if (pid) {
-    setInitialState((s) => ({
-      ...s,
-      currentProjectId: pid,
-    }));
-
-    console.log('切换到项目', initialState?.currentProjectId);
-  } else {
     message.error('错误的参数');
+    throw '错误的参数';
   }
 
   const fetchData = async () => {
@@ -38,6 +29,12 @@ const ProjectList: React.FC = () => {
 
   useEffect(() => {
     fetchData();
+    if (pid) {
+      setInitialState({
+        ...initialState,
+        currentProjectId: pid, //设置当前默认工作区项目
+      });
+    }
   }, []);
 
   return (
@@ -77,4 +74,4 @@ const ProjectList: React.FC = () => {
   );
 };
 
-export default ProjectList;
+export default ProjecDetail;

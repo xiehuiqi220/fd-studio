@@ -1,5 +1,5 @@
 import { getByProject } from '@/services/ant-design-pro/script';
-import { formateTime } from '@/Utils/time';
+import { formateTime } from '@/utils/time';
 import { Link } from '@umijs/max';
 import { Button, Descriptions, Divider, Empty, theme } from 'antd';
 import React, { useEffect, useState } from 'react';

@@ -20,7 +20,7 @@ export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
   dataDict: any;
-  currentProjectId: '';
+  currentProjectId: string;
   loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
@@ -37,18 +37,13 @@ export async function getInitialState(): Promise<{
   };
   // 如果不是登录页面，执行
   const { location } = history;
+  let currentUser = undefined;
   if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-      currentProjectId: '',
-      dataDict: DATA_DICTS,
-      settings: defaultSettings as Partial<LayoutSettings>,
-    };
+    currentUser = await fetchUserInfo();
   }
   return {
     fetchUserInfo,
+    currentUser,
     dataDict: DATA_DICTS,
     currentProjectId: '',
     settings: defaultSettings as Partial<LayoutSettings>,

@@ -159,6 +159,7 @@ declare namespace API {
 
   type Location = {
     id?: string;
+    projectId: string;
     title?: string;
     serialNumber?: string;
     logo?: object[{ url: string }];
@@ -170,6 +171,7 @@ declare namespace API {
 
   type Character = {
     id?: string;
+    projectId: string;
     age?: number;
     gender?: string;
     title?: string;

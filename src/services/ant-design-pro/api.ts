@@ -41,8 +41,8 @@ export async function getAllProjects(options?: { [key: string]: any }) {
 }
 
 /** 根据id获取项目信息 GET /api/getAllProjects */
-export async function getProjectById(pid: string | undefined) {
-  return request<{ success: boolean, data: API.ProjectItem }>('/gateway/project/getById', {
+export async function getProjectById(pid: string) {
+  return request<{ success: boolean; data: API.ProjectItem }>('/gateway/project/getById', {
     method: 'GET',
     params: { pid },
   });
@@ -50,9 +50,9 @@ export async function getProjectById(pid: string | undefined) {
 
 /** 更新项目信息 GET /api/getAllProjects */
 export async function updateProject(projectData: API.ProjectItem) {
-  return request<{ success: boolean, data: string, errorMsg: string }>('/gateway/project/save', {
+  return request<{ success: boolean; data: string; errorMsg: string }>('/gateway/project/save', {
     method: 'POST',
-    data: projectData
+    data: projectData,
   });
 }
 

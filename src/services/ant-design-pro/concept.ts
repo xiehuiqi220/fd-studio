@@ -31,7 +31,7 @@ export async function getLocationById(lid: string) {
 
 /** 更新地点 GET /api/updateShot */
 export async function saveLocation(loc: API.Location) {
-  return request<{ success: boolean; data: string; errorMsg: string }>('/gateway/location/save', {
+  return request<{ success: boolean; data: any; errorMsg: string }>('/gateway/location/save', {
     method: 'POST',
     data: loc,
   });
@@ -48,10 +48,10 @@ export async function getCharacterById(lid: string) {
 }
 
 /** 更新地点 GET /api/updateShot */
-export async function saveCharacter(loc: API.Location) {
-  return request<{ success: boolean; data: string; errorMsg: string }>('/gateway/character/save', {
+export async function saveCharacter(char: API.Character) {
+  return request<{ success: boolean; data: any; errorMsg: string }>('/gateway/character/save', {
     method: 'POST',
-    data: loc,
+    data: char,
   });
 }
 

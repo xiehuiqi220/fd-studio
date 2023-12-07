@@ -10,15 +10,17 @@
  * @param icon 配置路由的图标，取值参考 https://ant.design/components/icon-cn， 注意去除风格后缀和大小写，如想要配置图标为 <StepBackwardOutlined /> 则取值应为 stepBackward 或 StepBackward，如想要配置图标为 <UserOutlined /> 则取值应为 user 或者 User
  * @doc https://umijs.org/docs/guides/routes
  */
+
 export default [
   {
     path: '/user',
     layout: false,
+    hideInMenu: true,
     routes: [
       {
         name: 'login',
         path: '/user/login',
-        component: './User/Login',
+        component: './User/Login', //登录页
       },
     ],
   },
@@ -26,12 +28,13 @@ export default [
     path: '/index',
     name: 'index',
     icon: 'home',
-    component: './Index',
+    component: './Index', //dashboard首页，所有项目
   },
   {
     path: '/admin/project/detail',
     name: 'project.detail',
     component: './Project/Detail',
+    wrappers: ['@/wrappers/nav'],
   },
   {
     path: '/admin/project/detail/:id',
@@ -66,11 +69,23 @@ export default [
   {
     path: '/admin/location/manager',
     name: 'location.manage',
+    wrappers: ['@/wrappers/nav'],
+  },
+  {
+    path: '/admin/location/manager/:pid',
+    name: 'location.manage',
     component: './Location/LocList',
+    hideInMenu: true,
   },
   {
     path: '/admin/role/manager',
     name: 'role.manage',
+    wrappers: ['@/wrappers/nav'],
+  },
+  {
+    path: '/admin/role/manager/:pid',
+    name: 'role.manage',
+    hideInMenu: true,
     component: './Character/List',
   },
   {
@@ -88,6 +103,12 @@ export default [
   {
     path: '/admin/script/list',
     name: 'script.list',
+    wrappers: ['@/wrappers/nav'],
+  },
+  {
+    path: '/admin/script/list/:pid',
+    name: 'script.list',
+    hideInMenu: true,
     component: './Script/List',
   },
   {

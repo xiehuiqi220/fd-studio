@@ -1,7 +1,7 @@
 import { getAllLocations, getLocationById, saveLocation } from '@/services/ant-design-pro/concept';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { useModel } from '@umijs/max';
-import { Card } from 'antd';
+import { useModel, useParams } from '@umijs/max';
+import { Button, Card, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Editor from '../../components/Setting/Editor';
 
@@ -14,12 +14,13 @@ const { Meta } = Card;
  */
 const InfoCard: React.FC<{
   id: string;
+  pid: string;
   title: string | undefined;
   logo: string;
   desc: string | undefined;
-}> = ({ id, title, desc, logo }) => {
+}> = ({ id, pid, title, desc, logo }) => {
   return (
-    <Editor id={id} title="编辑地点" saveFn={saveLocation} getIdFn={getLocationById}>
+    <Editor pid={pid} id={id} title="编辑地点" saveFn={saveLocation} getIdFn={getLocationById}>
       <Card
         hoverable
         style={{ width: 323 }}
@@ -38,7 +39,12 @@ const InfoCard: React.FC<{
 
 const CardList: React.FC = () => {
   const { initialState } = useModel('@@initialState');
-  const pid = initialState?.currentProjectId;
+  const params = useParams();
+  const pid = params.pid || '';
+  if (!pid) {
+    message.error('错误的参数');
+    throw '错误的参数';
+  }
 
   const [locationList, setLocationList] = useState<API.Location[] | undefined>([]);
 
@@ -64,6 +70,7 @@ const CardList: React.FC = () => {
         return (
           <InfoCard
             key={i}
+            pid={item.projectId}
             id={item.id}
             logo={item.logo}
             title={item.title}
@@ -78,10 +85,30 @@ const CardList: React.FC = () => {
 import { PageContainer } from '@ant-design/pro-components';
 
 const LocList: React.FC = (props) => {
+  const params = useParams();
+  const pid = params.pid || '';
+  if (!pid) {
+    message.error('错误的参数');
+    throw '错误的参数';
+  }
+
   useEffect(() => {}, []);
 
   return (
-    <PageContainer>
+    <PageContainer
+      extra={[
+        <Editor
+          pid={pid}
+          saveFn={saveLocation}
+          extraFields={undefined}
+          title="创建场景"
+          key={0}
+          id=""
+        >
+          <Button>创建场景</Button>
+        </Editor>,
+      ]}
+    >
       <CardList />
     </PageContainer>
   );

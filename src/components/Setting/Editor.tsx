@@ -11,20 +11,27 @@ import Uploader from '../../components/Setting/Uploader';
 
 export type SettingFormProps = {
   id: string | undefined;
+  pid: string;
   title: string;
-  getIdFn: (id: string) => Promise<object>;
-  saveFn: (data: object) => object;
+  getIdFn?: (id: string) => Promise<{ data: object }>;
+  saveFn: (data: object) => Promise<{ data: any; success: boolean; errorMsg: string }>;
   children: React.JSX.Element;
-  extraFields: object;
+  extraFields?: object | undefined;
 };
 
 const SettingEditor: React.FC<SettingFormProps> = (props) => {
   const [form] = Form.useForm();
-  const { id, getIdFn, saveFn } = props;
+  const { id = '', pid = '', getIdFn, saveFn } = props;
   const extraFields = props.extraFields || {};
   const isEdit: boolean = !!id; //是否编辑状态
+  if (!pid) {
+    throw '错误的项目ID';
+  }
 
   const fetchData = async () => {
+    if (!getIdFn) {
+      throw '错误的getIdFn';
+    }
     let res = await getIdFn(id);
     if (!res?.data) {
       message.error('未找到数据，请稍后重试');
@@ -84,6 +91,13 @@ const SettingEditor: React.FC<SettingFormProps> = (props) => {
         readonly={true}
         disabled={true}
         hidden={!isEdit}
+      />
+      <ProFormText
+        name="projectId"
+        label="项目ID"
+        initialValue={pid}
+        readonly={true}
+        disabled={true}
       />
       <ProFormText
         name="title"
