@@ -65,7 +65,7 @@ const InfoCard: React.FC<{
 };
 
 const CardList: React.FC = () => {
-  const { initialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
   const [characterList, setCharacterList] = useState<API.Character[] | undefined>([]);
   const params = useParams();
   const pid = params.pid || '';
@@ -82,6 +82,12 @@ const CardList: React.FC = () => {
 
   useEffect(() => {
     fetchCharacters();
+    if (pid) {
+      setInitialState({
+        ...initialState,
+        currentProjectId: pid, //设置当前默认工作区项目
+      });
+    }
   }, []);
 
   return (

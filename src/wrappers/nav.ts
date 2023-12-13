@@ -8,5 +8,8 @@ export default (props: any) => {
   if (pid) {
     history.replace(history.location.pathname + '/' + pid);
     console.log('自动添加PID并跳转', pid);
+  } else {
+    alert('please select a project');
+    history.back();
   }
 };

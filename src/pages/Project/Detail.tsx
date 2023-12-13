@@ -4,6 +4,7 @@ import { Button, Descriptions, Divider, Image, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'umi';
 import SList from '../../components/Project/ScriptList';
+import SbList from '../../components/Project/StoryBoardList';
 
 import { PageContainer } from '@ant-design/pro-components';
 
@@ -70,6 +71,8 @@ const ProjecDetail: React.FC = () => {
       </Descriptions>
       <Divider />
       <SList pid={pid} />
+      <Divider />
+      <SbList pid={pid} />
     </PageContainer>
   );
 };

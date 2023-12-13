@@ -104,8 +104,9 @@ declare namespace API {
     lens?: number;
     move?: string;
     voice?: string;
-    sbId: string; //分镜基本信息id，分镜下面有镜头，1:n
+    storyboardbId: string; //分镜基本信息id，分镜下面有镜头，1:n
     content?: string;
+    dialog?: string;
     last_modified_at?: number;
     created_at?: number;
   };

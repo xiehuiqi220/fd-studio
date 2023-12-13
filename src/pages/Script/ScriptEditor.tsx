@@ -10,6 +10,7 @@ import {
   ProCard,
   ProForm,
   ProFormList,
+  ProFormSelect,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
@@ -18,7 +19,7 @@ const ScriptEditor: React.FC = (props) => {
   const params = useParams();
   const pid = params.id;
   const isEdit: boolean = !!pid; //是否编辑状态
-  const { initialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
   const initailSection = [{ id: '', location: 'xx家', content: '小蜜说：' }];
 
   const dataDict = initialState?.dataDict;
@@ -32,6 +33,13 @@ const ScriptEditor: React.FC = (props) => {
     }
     let data = res.data;
     formRef?.current?.setFieldsValue(data);
+
+    if (data.projectId) {
+      setInitialState({
+        ...initialState,
+        currentProjectId: data.projectId, //设置当前默认工作区项目
+      });
+    }
   };
 
   const submitForm = async (allFormData: object) => {
@@ -55,7 +63,11 @@ const ScriptEditor: React.FC = (props) => {
     <PageContainer
       tabList={[
         {
-          tab: '编辑模式',
+          tab: '编辑内容',
+          key: 'edit',
+        },
+        {
+          tab: '快速编辑',
           key: 'edit',
         },
         {
@@ -141,6 +153,24 @@ const ScriptEditor: React.FC = (props) => {
             name="location"
             label="地点"
             required={true}
+            rules={[{ required: true }]}
+          />
+          <ProFormSelect
+            style={{ padding: 0 }}
+            width="md"
+            name="space"
+            label="内外景"
+            required={true}
+            options={initialState?.dataDict.SCRIPT_SPACE}
+            rules={[{ required: true }]}
+          />
+          <ProFormSelect
+            style={{ padding: 0 }}
+            width="md"
+            name="period"
+            label="时间"
+            required={true}
+            options={initialState?.dataDict.SCRIPT_PERIOD}
             rules={[{ required: true }]}
           />
           <ProFormTextArea

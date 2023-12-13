@@ -9,6 +9,7 @@ export default {
   'menu.storyboard.edit': '编辑分镜',
   'menu.script.create': '创建剧本',
   'menu.script.editor': '编辑剧本',
+  'menu.storyboard.list': '分镜/故事板',
   'menu.location.manage': '场景',
   'menu.role.manage': '角色',
   'menu.login': '登录',

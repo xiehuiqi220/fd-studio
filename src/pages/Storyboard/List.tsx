@@ -2,9 +2,9 @@ import { PageContainer } from '@ant-design/pro-components';
 import { useModel, useParams } from '@umijs/max';
 import { message } from 'antd';
 import React, { useEffect } from 'react';
-import SList from '../../components/Project/ScriptList';
+import SbList from '../../components/Project/StoryBoardList';
 
-const ScriptList: React.FC = (props) => {
+const StoryBoardList: React.FC = (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const params = useParams();
   const pid = params.pid || '';
@@ -24,9 +24,9 @@ const ScriptList: React.FC = (props) => {
 
   return (
     <PageContainer>
-      <SList pid={pid} />
+      <SbList pid={pid} />
     </PageContainer>
   );
 };
 
-export default ScriptList;
+export default StoryBoardList;

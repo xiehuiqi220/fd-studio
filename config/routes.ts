@@ -61,6 +61,23 @@ export default [
     component: './Project/Create',
   },
   {
+    path: '/admin/storyboard/list',
+    name: 'storyboard.list',
+    wrappers: ['@/wrappers/nav'],
+  },
+  {
+    path: '/admin/storyboard/list/:pid',
+    name: 'storyboard.list',
+    hideInMenu: true,
+    component: './Storyboard/List',
+  },
+  {
+    path: '/admin/storyboard/create',
+    name: 'storyboard.create',
+    hideInMenu: true,
+    component: './Storyboard/Edit',
+  },
+  {
     path: '/admin/storyboard/edit/:id',
     name: 'storyboard.edit',
     hideInMenu: true,
@@ -89,7 +106,7 @@ export default [
     component: './Character/List',
   },
   {
-    path: '/admin/script/editor/:id',
+    path: '/admin/script/editor/:id/p-:pid',
     name: 'script.editor',
     hideInMenu: true,
     component: './Script/ScriptEditor',

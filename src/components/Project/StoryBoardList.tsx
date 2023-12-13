@@ -1,4 +1,4 @@
-import { getByProject } from '@/services/ant-design-pro/script';
+import { getAllSb } from '@/services/ant-design-pro/sb';
 import { formateTime } from '@/utils/time';
 import { Link } from '@umijs/max';
 import { Button, Descriptions, Divider, Empty, theme } from 'antd';
@@ -8,12 +8,12 @@ export type SListProps = {
   pid: string | undefined;
 };
 
-const SList: React.FC<SListProps> = (props) => {
+const SbList: React.FC<SListProps> = (props) => {
   const { token } = theme.useToken();
   const [scripts, setScripts] = useState<API.Script[] | undefined>([]);
 
   const fetchProjects = async () => {
-    const scriptList = await getByProject(props.pid);
+    const scriptList = await getAllSb(props.pid);
     setScripts(scriptList.data);
   };
 
@@ -25,7 +25,7 @@ const SList: React.FC<SListProps> = (props) => {
     <div>
       <Descriptions
         bordered
-        title="剧本"
+        title="分镜/故事板"
         size={'default'}
         labelStyle={{ maxWidth: 250, minWidth: 150, width: 200 }}
         column={1}
@@ -33,7 +33,7 @@ const SList: React.FC<SListProps> = (props) => {
         {scripts?.map((s) => (
           <Descriptions.Item key={s.id} label={s.title}>
             {s.description}
-            <Link to={`/admin/script/editor/${s.id}/p-${props.pid}`}>查看详情</Link>
+            <Link to={`/admin/storyboard/edit/${s.id}`}>查看详情</Link>
             <Divider type="vertical" />
             创建于{formateTime(s.createdAt)}
           </Descriptions.Item>
@@ -43,10 +43,10 @@ const SList: React.FC<SListProps> = (props) => {
         <Empty
           image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
           imageStyle={{ height: 60 }}
-          description={<span>还没有剧本，点下面的按钮去创建吧</span>}
+          description={<span>还没有故事板，点下面的按钮去创建吧</span>}
         >
           <Button type="primary">
-            <Link to={'../script/create'}>创建剧本</Link>
+            <Link to={'/admin/storyboard/create'}>创建故事板</Link>
           </Button>
         </Empty>
       ) : (
@@ -56,4 +56,4 @@ const SList: React.FC<SListProps> = (props) => {
   );
 };
 
-export default SList;
+export default SbList;
