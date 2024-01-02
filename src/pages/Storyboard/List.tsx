@@ -2,7 +2,7 @@ import { PageContainer } from '@ant-design/pro-components';
 import { useModel, useParams } from '@umijs/max';
 import { message } from 'antd';
 import React, { useEffect } from 'react';
-import SbList from '../../components/Project/StoryBoardList';
+import SbList from '../../components/Visual/StoryBoardList';
 
 const StoryBoardList: React.FC = (props) => {
   const { initialState, setInitialState } = useModel('@@initialState');

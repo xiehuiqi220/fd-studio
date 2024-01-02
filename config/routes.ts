@@ -72,7 +72,7 @@ export default [
     component: './Storyboard/List',
   },
   {
-    path: '/admin/storyboard/create',
+    path: '/admin/storyboard/create/:pid',
     name: 'storyboard.create',
     hideInMenu: true,
     component: './Storyboard/Edit',
@@ -112,7 +112,7 @@ export default [
     component: './Script/ScriptEditor',
   },
   {
-    path: '/admin/script/create',
+    path: '/admin/script/create/p-:pid',
     name: 'script.create',
     hideInMenu: true,
     component: './Script/ScriptEditor',

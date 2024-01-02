@@ -46,7 +46,7 @@ const SbList: React.FC<SListProps> = (props) => {
           description={<span>还没有故事板，点下面的按钮去创建吧</span>}
         >
           <Button type="primary">
-            <Link to={'/admin/storyboard/create'}>创建故事板</Link>
+            <Link to={`/admin/storyboard/create/${props.pid}`}>创建故事板</Link>
           </Button>
         </Empty>
       ) : (

@@ -46,7 +46,7 @@ const SList: React.FC<SListProps> = (props) => {
           description={<span>还没有剧本，点下面的按钮去创建吧</span>}
         >
           <Button type="primary">
-            <Link to={'../script/create'}>创建剧本</Link>
+            <Link to={`/admin/script/create/p-${props.pid}`}>创建剧本</Link>
           </Button>
         </Empty>
       ) : (

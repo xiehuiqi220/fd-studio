@@ -17,18 +17,21 @@ import {
 
 const ScriptEditor: React.FC = (props) => {
   const params = useParams();
-  const pid = params.id;
-  const isEdit: boolean = !!pid; //是否编辑状态
+  const sid = params.id;
+  const pid = params.pid; //项目id
+  const isEdit: boolean = !!sid; //是否编辑状态
+  const isCreate = !isEdit;
   const { initialState, setInitialState } = useModel('@@initialState');
+
   const initailSection = [{ id: '', location: 'xx家', content: '小蜜说：' }];
 
   const dataDict = initialState?.dataDict;
   const formRef = useRef<ProFormInstance>();
 
   const fetchData = async () => {
-    let res = await getScriptById(pid);
+    let res = await getScriptById(sid);
     if (!res?.data) {
-      message.error('未找到项目数据，请稍后重试');
+      message.error('未找到剧本，请稍后重试');
       return;
     }
     let data = res.data;
@@ -56,8 +59,20 @@ const ScriptEditor: React.FC = (props) => {
   };
 
   useEffect(() => {
-    if (isEdit) fetchData();
+    if (isEdit) {
+      fetchData();
+    } else if (isCreate && pid) {
+      setInitialState({
+        ...initialState,
+        currentProjectId: pid, //设置当前默认工作区项目
+      });
+    }
   }, []);
+
+  if (isCreate && !pid) {
+    message.error('错误的项目参数');
+    return;
+  }
 
   return (
     <PageContainer
@@ -68,7 +83,7 @@ const ScriptEditor: React.FC = (props) => {
         },
         {
           tab: '快速编辑',
-          key: 'edit',
+          key: 'quick-edit',
         },
         {
           tab: '阅读模式',
@@ -96,9 +111,10 @@ const ScriptEditor: React.FC = (props) => {
           name="projectId"
           label="projectId"
           width="md"
+          initialValue={pid}
           readonly={true}
           disabled={true}
-          hidden={true}
+          hidden={false}
         />
         <ProFormText
           style={{ padding: 0 }}

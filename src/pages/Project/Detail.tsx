@@ -4,7 +4,7 @@ import { Button, Descriptions, Divider, Image, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'umi';
 import SList from '../../components/Project/ScriptList';
-import SbList from '../../components/Project/StoryBoardList';
+import SbList from '../../components/Visual/StoryBoardList';
 
 import { PageContainer } from '@ant-design/pro-components';
 

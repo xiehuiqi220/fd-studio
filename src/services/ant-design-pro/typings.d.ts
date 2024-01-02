@@ -95,8 +95,7 @@ declare namespace API {
 
   type ShotType = {
     id: string;
-    sortNum?: number;
-    shotNum?: number;
+    shotNumber?: number;
     picture?: string;
     scenery?: number;
     duration?: number;
@@ -104,7 +103,7 @@ declare namespace API {
     lens?: number;
     move?: string;
     voice?: string;
-    storyboardbId: string; //分镜基本信息id，分镜下面有镜头，1:n
+    storyboardId: string; //分镜基本信息id，分镜下面有镜头，1:n
     content?: string;
     dialog?: string;
     last_modified_at?: number;
@@ -116,6 +115,7 @@ declare namespace API {
     projectId: string;
     title: string;
     fps: number;
+    shots: ShotType[];
   };
 
   type ProjectItem = {
