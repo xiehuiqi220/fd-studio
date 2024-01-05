@@ -1,6 +1,7 @@
 import SbConfig from '@/components/Visual/SbConfig';
+import PictureEditor from '@/components/Visual/ShotPicture';
 import { createEmptyShot, getConfig, removeShot, updateShot } from '@/services/ant-design-pro/sb';
-import { EditOutlined, EllipsisOutlined, PlusOutlined, SettingOutlined } from '@ant-design/icons';
+import { PlusOutlined, SettingOutlined } from '@ant-design/icons';
 import {
   ActionType,
   EditableProTable,
@@ -120,7 +121,7 @@ const SBEditor: React.FC = () => {
     {
       title: '图片',
       dataIndex: 'picture',
-      valueType: 'custom-picture',
+      renderFormItem: PictureEditor.renderFormItem,
       width: 300,
     },
     {
@@ -128,7 +129,11 @@ const SBEditor: React.FC = () => {
       dataIndex: 'scenery',
       valueType: 'select',
       valueEnum: {
-        long: { text: '远景', status: 'long' },
+        long: '远景',
+        full: '全景',
+        medium: '中景',
+        chest: '近景',
+        close: '特写',
       },
       width: 120,
     },
@@ -177,21 +182,7 @@ const SBEditor: React.FC = () => {
         <ProProvider.Provider
           value={{
             ...values,
-            valueTypeMap: {
-              'custom-picture': {
-                renderFormItem: (text, props) => (
-                  <Card
-                    cover={<img src={text} />}
-                    bodyStyle={{ padding: 0 }}
-                    actions={[
-                      <SettingOutlined key="setting" />,
-                      <EditOutlined key="edit" />,
-                      <EllipsisOutlined key="ellipsis" />,
-                    ]}
-                  ></Card>
-                ),
-              },
-            },
+            valueTypeMap: {},
           }}
         >
           <SbConfig
@@ -244,6 +235,9 @@ const SBEditor: React.FC = () => {
                 //当单列的值修改时，每输入一个字符会触发一次
                 //新增或删除时也会触发，record为undefined
                 if (!record) {
+                  return;
+                }
+                if (!record.storyboardId) {
                   return;
                 }
                 console.log('shot changed', record.id, record);
