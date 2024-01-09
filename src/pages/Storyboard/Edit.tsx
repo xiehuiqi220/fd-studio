@@ -122,7 +122,7 @@ const SBEditor: React.FC = () => {
       title: '图片',
       dataIndex: 'picture',
       renderFormItem: PictureEditor.renderFormItem,
-      width: 300,
+      width: initialState?.dataDict.SB_IMAGE_WIDTH,
     },
     {
       title: '景别',

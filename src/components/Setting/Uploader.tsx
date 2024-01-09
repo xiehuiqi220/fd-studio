@@ -1,13 +1,17 @@
 import { ProFormUploadDragger } from '@ant-design/pro-components';
-import { message } from 'antd';
+import { message, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
 import React, { useState } from 'react';
+
+export type UploadMode = 'simple' | '';
 
 export type UploaderProps = {
   title: string;
   name: string;
   max: number;
+  mode: UploadMode;
   onSuccess: (src: string) => void;
+  children?: React.JSX.Element;
 };
 
 const Uploader: React.FC<UploaderProps> = (props) => {
@@ -29,25 +33,34 @@ const Uploader: React.FC<UploaderProps> = (props) => {
     }
   };
 
-  return (
-    <ProFormUploadDragger
-      name={props.name}
-      label={props.title}
-      accept=".png,.jpg,.jpeg,.bmp,.webp,.gif"
-      max={props.max}
-      fileList={fileList}
-      onChange={onChange}
-      fieldProps={{
-        name: 'file',
-        listType: 'picture-card',
-        headers: {
-          'x-csrf-token': 'S52fBY93UPq2mTPSomctjSC6',
-        },
-        withCredentials: true,
-        multiple: true,
-      }}
-      action="http://127.0.0.1:7001/gateway/image/upload?source=antd"
-    />
+  const isSimple = props.mode === 'simple';
+
+  const attr = {
+    name: props.name,
+    label: props.title,
+    max: props.max,
+    fileList: fileList,
+    fieldProps: {
+      name: 'file',
+      accept: '.png,.jpg,.jpeg,.bmp,.webp,.gif',
+      listType: isSimple ? '' : 'picture-card',
+      headers: {
+        'x-csrf-token': 'S52fBY93UPq2mTPSomctjSC6',
+      },
+      withCredentials: true,
+      multiple: props.max > 1,
+      action: 'http://127.0.0.1:7001/gateway/image/upload?source=antd',
+    },
+  };
+
+  return isSimple ? (
+    <Upload maxCount={props.max} {...attr.fieldProps} onChange={onChange}>
+      {props.children}
+    </Upload>
+  ) : (
+    <ProFormUploadDragger {...attr} onChange={onChange}>
+      {props.children}
+    </ProFormUploadDragger>
   );
 };
 

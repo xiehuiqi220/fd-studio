@@ -1,4 +1,5 @@
 export default {
+  SB_IMAGE_WIDTH: 300,
   PROJECT_TYPES: [
     {
       label: '电影',
